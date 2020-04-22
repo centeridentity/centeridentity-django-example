@@ -25,7 +25,7 @@
 
                 var ci = new CenterIdentity();
                 
-                var result = await ci.registerWithLocation('{{session_id}}', username, coords.latitude, coords.longitude);
+                var result = await ci.registerWithLocation(username, coords.latitude, coords.longitude);
 
                 if (result.status) {
                     alert('registerd');

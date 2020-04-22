@@ -17,7 +17,6 @@ def home(request):
         'index.html',
         dict(session_id=request.session['uuid'])
     )
-    return HttpResponse('you are home')
 
 
 class CreateCustomerViewSet(APIView):
