@@ -1,0 +1,46 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <input type="email" name="username" id="username">
+        <div id="map" style="height: 400px;"></div>
+        <script src="https://centeridentity.com/centeridentitystatic/centeridentity/dist/bundle.js" type="text/javascript"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet" />
+        <script type="text/javascript">
+            mapboxgl.accessToken = 'YOUR_MAPBOX_API_KEY';
+            var map = new mapboxgl.Map({
+                container: 'map', // container id
+                style: 'mapbox://v1/mapbox/satellite-streets-v11',
+                center: [-100.436, 30.771], // starting position
+                zoom: 2 // starting zoom
+            });
+            map.on('click', async function(e) {
+                var coords = {
+                    latitude: e.lngLat.lat.toFixed(3),
+                    longitude: e.lngLat.lng.toFixed(3)
+                };
+
+                var username = document.getElementById('username').value;
+
+                var ci = new CenterIdentity();
+                
+                var result = await ci.registerWithLocation('{{session_id}}', username, coords.latitude, coords.longitude);
+
+                if (result.status) {
+                    alert('registerd');
+                } else {
+                    alert('registration failed')
+                }
+                
+                var result = await ci.signInWithLocation('{{session_id}}', username, coords.latitude, coords.longitude);
+
+                if (result.public_key) {
+                    alert('signed in');
+                } else {
+                    alert('sign in failed')
+                }
+            });
+        </script>
+    </body>
+</html>
